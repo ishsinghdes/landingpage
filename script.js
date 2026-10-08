@@ -119,6 +119,36 @@
   nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
     nav.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); toggle.setAttribute('aria-label', 'Open navigation');
   }));
+  const experienceToggles = [...document.querySelectorAll('.role-toggle')];
+  if (experienceToggles.length) {
+    const mobileExperience = matchMedia('(max-width: 760px)');
+    const setExperienceOpen = (button, open) => {
+      const panel = document.getElementById(button.getAttribute('aria-controls'));
+      button.setAttribute('aria-expanded', String(open));
+      const role = button.closest('.role');
+      if (role) role.dataset.expanded = String(open);
+      if (!panel) return;
+      if (mobileExperience.matches) {
+        panel.setAttribute('aria-hidden', String(!open));
+        if (open) panel.removeAttribute('inert');
+        else panel.setAttribute('inert', '');
+      } else {
+        panel.removeAttribute('aria-hidden');
+        panel.removeAttribute('inert');
+      }
+    };
+    const syncExperienceMode = () => {
+      experienceToggles.forEach(button => setExperienceOpen(button, false));
+    };
+    syncExperienceMode();
+    if (mobileExperience.addEventListener) mobileExperience.addEventListener('change', syncExperienceMode);
+    else mobileExperience.addListener(syncExperienceMode);
+    experienceToggles.forEach(button => button.addEventListener('click', () => {
+      if (!mobileExperience.matches) return;
+      const shouldOpen = button.getAttribute('aria-expanded') !== 'true';
+      experienceToggles.forEach(other => setExperienceOpen(other, other === button && shouldOpen));
+    }));
+  }
   const timeline = document.querySelector('.project-grid');
   if (timeline) {
     const timelineRows = [...timeline.querySelectorAll('.project-card')];
