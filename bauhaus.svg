@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 912" role="img" aria-label="Bauhaus-inspired geometric color composition">
+  <rect width="1140" height="912" fill="#eee9c9"/>
+  <defs>
+    <clipPath id="c1"><rect x="0" y="0" width="114" height="228"/></clipPath>
+    <clipPath id="c2"><rect x="228" y="114" width="228" height="114"/></clipPath>
+    <clipPath id="c3"><rect x="456" y="114" width="228" height="114"/></clipPath>
+    <clipPath id="c4"><rect x="1026" y="0" width="114" height="228"/></clipPath>
+    <clipPath id="c5"><rect x="114" y="456" width="114" height="228"/></clipPath>
+    <clipPath id="c6"><rect x="798" y="456" width="228" height="228"/></clipPath>
+    <pattern id="verticalCream" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="8" height="16" fill="#eee9c9"/><rect x="8" width="8" height="16" fill="#36869d"/></pattern>
+    <pattern id="verticalRust" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="6" height="12" fill="#d8623e"/><rect x="6" width="6" height="12" fill="#c8444b"/></pattern>
+    <pattern id="horizontalGreen" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="14" height="7" fill="#e3bd1e"/><rect y="7" width="14" height="7" fill="#31784b"/></pattern>
+  </defs>
+  <!-- First band: cropped circle, semicircles, and angular cutouts. -->
+  <rect x="114" width="114" height="228" fill="#e678aa"/>
+  <g clip-path="url(#c1)"><circle cx="0" cy="114" r="114" fill="#373b3f"/></g>
+  <rect x="228" width="228" height="114" fill="#373b3f"/>
+  <rect x="228" y="114" width="228" height="114" fill="#36869d"/>
+  <g clip-path="url(#c2)"><circle cx="342" cy="228" r="114" fill="#e678aa"/></g>
+  <rect x="456" width="228" height="114" fill="#eee9c9"/>
+  <rect x="456" y="114" width="228" height="114" fill="#31784b"/>
+  <g clip-path="url(#c3)"><circle cx="570" cy="228" r="114" fill="#e3bd1e"/></g>
+  <rect x="684" width="228" height="228" fill="#36869d"/>
+  <path d="M826 0h86v228h-86l86-114z" fill="#373b3f"/>
+  <path d="M826 114 912 0v228z" fill="#36869d"/>
+  <path d="M826 114 854 87v54z" fill="#eee9c9"/>
+  <rect x="912" width="114" height="228" fill="#31784b"/>
+  <rect x="1026" width="114" height="228" fill="#36869d"/>
+  <g clip-path="url(#c4)"><circle cx="1140" cy="114" r="114" fill="#d8623e"/></g>
+
+  <!-- Second band: bold wedges, offset rectangles and vertical rhythm. -->
+  <rect y="228" width="228" height="228" fill="#e3bd1e"/>
+  <path d="M228 228H114L228 342z" fill="#eee9c9"/>
+  <path d="M114 342 228 228v228H114z" fill="#e678aa"/>
+  <rect x="228" y="228" width="118" height="114" fill="#36869d"/>
+  <rect x="228" y="342" width="118" height="114" fill="#eee9c9"/>
+  <rect x="346" y="228" width="110" height="228" fill="url(#verticalCream)"/>
+  <rect x="456" y="228" width="228" height="228" fill="#e678aa"/>
+  <path d="M456 228h228L570 342z" fill="#d8623e"/>
+  <path d="M456 228 570 342 684 228v85L570 399 456 313z" fill="#e678aa"/>
+  <path d="M456 228 570 342 684 228z" fill="#e3bd1e"/>
+  <path d="M456 228h114v85H456z" fill="#d8623e"/>
+  <path d="m570 342 114-114v85l-114 86z" fill="#d8623e"/>
+  <rect x="684" y="228" width="228" height="114" fill="#e3bd1e"/>
+  <path d="M684 342h228v114H684z" fill="#373b3f"/>
+  <path d="M798 342h114L798 456z" fill="#e678aa"/>
+  <path d="M912 228h228v86H912z" fill="#e3bd1e"/>
+  <path d="M912 314h228v142H912z" fill="#eee9c9"/>
+  <path d="m1026 314 57 28 57-28z" fill="#373b3f"/>
+  <rect x="1026" y="314" width="114" height="30" fill="#eee9c9"/>
+
+  <!-- Third band: cut circles, a triangle, a striped block and a green disk. -->
+  <rect y="456" width="114" height="228" fill="#eee9c9"/>
+  <rect x="114" y="456" width="114" height="228" fill="#d8623e"/>
+  <g clip-path="url(#c5)"><circle cx="228" cy="570" r="114" fill="#373b3f"/></g>
+  <rect x="228" y="456" width="228" height="228" fill="#36869d"/>
+  <path d="M228 456h85L228 541z" fill="#373b3f"/>
+  <path d="M228 541 313 456v228h-85z" fill="#373b3f"/>
+  <path d="M228 570 342 684H228z" fill="#c8444b"/>
+  <rect x="456" y="456" width="114" height="228" fill="#e3bd1e"/>
+  <rect x="570" y="456" width="114" height="228" fill="#31784b"/>
+  <rect x="456" y="456" width="228" height="114" fill="url(#horizontalGreen)"/>
+  <rect x="684" y="456" width="114" height="228" fill="#373b3f"/>
+  <rect x="798" y="456" width="228" height="228" fill="#d8623e"/>
+  <rect x="912" y="456" width="114" height="228" fill="#31784b"/>
+  <g clip-path="url(#c6)"><circle cx="912" cy="570" r="114" fill="#31784b"/><path d="M798 456h114v228H798z" fill="#d8623e"/></g>
+  <rect x="1026" y="456" width="114" height="228" fill="#e3bd1e"/>
+
+  <!-- Fourth band: red/cream blocks, repeated stripes, and cropped forms. -->
+  <rect y="684" width="228" height="114" fill="#c8444b"/>
+  <rect x="228" y="684" width="118" height="228" fill="#eee9c9"/>
+  <rect x="346" y="684" width="110" height="228" fill="#373b3f"/>
+  <rect x="350" y="684" width="7" height="228" fill="#eee9c9"/><rect x="364" y="684" width="7" height="228" fill="#eee9c9"/><rect x="378" y="684" width="7" height="228" fill="#eee9c9"/><rect x="392" y="684" width="7" height="228" fill="#eee9c9"/><rect x="406" y="684" width="7" height="228" fill="#eee9c9"/><rect x="420" y="684" width="7" height="228" fill="#eee9c9"/><rect x="434" y="684" width="7" height="228" fill="#eee9c9"/><rect x="448" y="684" width="8" height="228" fill="#eee9c9"/>
+  <rect x="456" y="684" width="114" height="228" fill="#d8623e"/>
+  <rect x="456" y="798" width="114" height="114" fill="#c8444b"/>
+  <rect x="570" y="684" width="114" height="228" fill="#e678aa"/>
+  <rect x="570" y="684" width="114" height="114" fill="url(#verticalRust)"/>
+  <path d="M684 684h228v114H798z" fill="#e678aa"/>
+  <path d="M684 684h86v114h28z" fill="#eee9c9"/>
+  <path d="m684 798 114-114v114l-28 28z" fill="#d8623e"/>
+  <rect x="912" y="684" width="114" height="228" fill="#36869d"/>
+  <rect x="1026" y="684" width="114" height="228" fill="url(#verticalRust)"/>
+  <path d="M0 798h228v114H0z" fill="#e3bd1e"/>
+  <circle cx="114" cy="912" r="114" fill="#e3bd1e"/>
+</svg>
