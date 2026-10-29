@@ -1,38 +1,101 @@
 (() => {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const introRoot = document.documentElement;
+  const heroIntroStart = introRoot.classList.contains('intro-pending') && !reduced ? performance.now() : null;
   const startHeroIntro = () => {
-    if (!introRoot.classList.contains('intro-pending')) return;
-    if (reduced) {
-      introRoot.classList.remove('intro-pending');
-      return;
-    }
-    const hero = document.querySelector('.hero');
-    if (hero) hero.inert = true;
+    if (heroIntroStart === null) return;
     const copy = document.querySelector('.hero-copy');
-    if (copy) {
+    let lines = [], typingFrame = 0, previousSizes = '', finished = false, measuredSize = '';
+    const typingDelay = 1120, typingDuration = 1580;
+    const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+    // Measure the native wrapped lines once. The original text, links, line breaks
+    // and centering remain untouched throughout the reveal: no clone or reflow.
+    const measureLines = (force = false) => {
+      if (!copy || finished) return;
+      const bounds = copy.getBoundingClientRect();
+      const size = `${bounds.width}:${bounds.height}`;
+      if (force !== true && size === measuredSize) return;
+      measuredSize = size;
+      const lineHeight = parseFloat(getComputedStyle(copy).lineHeight);
       const walker = document.createTreeWalker(copy, NodeFilter.SHOW_TEXT);
-      const textNodes = [];
-      while (walker.nextNode()) textNodes.push(walker.currentNode);
-      let characterIndex = 0;
-      textNodes.forEach(textNode => {
-        const fragment = document.createDocumentFragment();
-        for (const character of textNode.nodeValue) {
-          const span = document.createElement('span');
-          span.className = 'hero-copy-char';
-          span.style.setProperty('--char-index', characterIndex++);
-          span.textContent = character;
-          fragment.append(span);
+      const range = document.createRange(), rows = [];
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        let offset = 0;
+        for (const character of node.nodeValue) {
+          range.setStart(node, offset);
+          offset += character.length;
+          range.setEnd(node, offset);
+          const rect = range.getBoundingClientRect();
+          if (rect.width < .01 || rect.height < .01) continue;
+          let row = rows.find(row => Math.abs(row.top - rect.top) < 2);
+          if (!row) { row = {top:rect.top, bottom:rect.bottom, characters:[]}; rows.push(row); }
+          row.bottom = Math.max(row.bottom, rect.bottom);
+          row.characters.push({left:rect.left-bounds.left,right:rect.right-bounds.left});
         }
-        textNode.replaceWith(fragment);
+      }
+      lines = rows.sort((a,b)=>a.top-b.top).map(row => {
+        row.characters.sort((a,b)=>a.left-b.left);
+        const left = row.characters[0].left;
+        const top = row.top-bounds.top-(lineHeight-(row.bottom-row.top))/2;
+        return {left, top, height:lineHeight+.5, characters:row.characters};
       });
-    }
+      // Multiple opaque mask rectangles reveal one line each, from its own start.
+      const layers = lines.map(()=>'linear-gradient(#000,#000)').join(',');
+      const positions = lines.map(line=>`${line.left}px ${line.top}px`).join(',');
+      copy.style.maskImage = copy.style.webkitMaskImage = layers;
+      copy.style.maskPosition = copy.style.webkitMaskPosition = positions;
+      copy.style.maskRepeat = copy.style.webkitMaskRepeat = 'no-repeat';
+      previousSizes = '';
+    };
+    const resizeObserver = copy ? new ResizeObserver(measureLines) : null;
+    const clearMask = () => {
+      if (!copy) return;
+      for (const property of ['mask-image','mask-position','mask-repeat','mask-size','-webkit-mask-image','-webkit-mask-position','-webkit-mask-repeat','-webkit-mask-size']) copy.style.removeProperty(property);
+    };
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      cancelAnimationFrame(typingFrame);
+      clearTimeout(window.__heroIntroFallback);
+      resizeObserver?.disconnect();
+      clearMask();
+      introRoot.classList.remove('intro-pending', 'intro-playing');
+      removeEventListener('pagehide', finish);
+      motionPreference.removeEventListener('change', onMotionChange);
+    };
+    const onMotionChange = event => { if (event.matches) finish(); };
+    const revealLines = progress => {
+      if (!copy || !lines.length) return;
+      const sizes = lines.map(line => {
+        const count = progress > 0 ? Math.max(1,Math.floor(progress*line.characters.length)) : 0;
+        const right = count ? line.characters[Math.min(count,line.characters.length)-1].right : line.left;
+        return `${Math.max(0,right-line.left+.35*(count>0))}px ${line.height}px`;
+      }).join(',');
+      if (sizes !== previousSizes) {
+        copy.style.maskSize = copy.style.webkitMaskSize = sizes;
+        previousSizes = sizes;
+      }
+    };
+    measureLines(); revealLines(0);
+    resizeObserver?.observe(copy);
+    document.fonts.ready.then(() => {
+      if (!finished) {
+        measureLines(true);
+        revealLines(Math.min(1,Math.max(0,(performance.now()-heroIntroStart-typingDelay)/typingDuration)));
+      }
+    });
+    motionPreference.addEventListener('change', onMotionChange);
+    addEventListener('pagehide', finish, {once:true});
+    const tick = now => {
+      const elapsed = now - heroIntroStart;
+      revealLines(Math.min(1,Math.max(0,(elapsed-typingDelay)/typingDuration)));
+      if (elapsed >= 4100) finish();
+      else typingFrame = requestAnimationFrame(tick);
+    };
     introRoot.classList.remove('intro-pending');
     introRoot.classList.add('intro-playing');
-    window.setTimeout(() => {
-      introRoot.classList.remove('intro-playing');
-      if (hero) hero.inert = false;
-    }, 3600);
+    typingFrame = requestAnimationFrame(tick);
   };
   startHeroIntro();
   const themeTrigger = document.querySelector('.hero-theme-trigger');
@@ -44,32 +107,32 @@
   };
   const themeBackgrounds = {
     cloud: {
-      src: 'assets/themes/cloud-sky.jpg',
-      image: 'linear-gradient(180deg,rgba(3,9,17,.38),rgba(3,8,14,.56)),url("assets/themes/cloud-sky.jpg")'
+      src: 'assets/themes/cloud-sky.webp',
+      image: 'linear-gradient(180deg,rgba(3,9,17,.38),rgba(3,8,14,.56)),url("assets/themes/cloud-sky.webp")'
     },
     anime: {
-      src: 'assets/themes/anime-sky.jpg',
-      image: 'linear-gradient(180deg,rgba(3,5,17,.38),rgba(3,5,15,.5)),url("assets/themes/anime-sky.jpg")'
+      src: 'assets/themes/anime-sky.webp',
+      image: 'linear-gradient(180deg,rgba(3,5,17,.38),rgba(3,5,15,.5)),url("assets/themes/anime-sky.webp")'
     },
     mural: {
-      src: 'assets/themes/mumbai-mural.png',
-      image: 'linear-gradient(180deg,rgba(31,7,13,.38),rgba(17,4,9,.54)),url("assets/themes/mumbai-mural.png")'
+      src: 'assets/themes/mumbai-mural.webp',
+      image: 'linear-gradient(180deg,rgba(31,7,13,.38),rgba(17,4,9,.54)),url("assets/themes/mumbai-mural.webp")'
     },
     blueprint: {
-      src: 'assets/themes/blueprint-grid.png',
-      image: 'linear-gradient(180deg,rgba(9,35,84,.08),rgba(7,28,72,.18)),url("assets/themes/blueprint-grid.png")'
+      src: 'assets/themes/blueprint-grid.webp',
+      image: 'linear-gradient(180deg,rgba(9,35,84,.08),rgba(7,28,72,.18)),url("assets/themes/blueprint-grid.webp")'
     },
     underwater: {
-      src: 'assets/themes/underwater.png',
-      image: 'linear-gradient(180deg,rgba(0,34,48,.18),rgba(0,15,27,.42)),url("assets/themes/underwater.png")'
+      src: 'assets/themes/underwater.webp',
+      image: 'linear-gradient(180deg,rgba(0,34,48,.18),rgba(0,15,27,.42)),url("assets/themes/underwater.webp")'
     },
     bauhaus: {
       src: 'assets/themes/bauhaus.svg',
       image: 'linear-gradient(180deg,rgba(20,19,22,.05),rgba(20,19,22,.12)),url("assets/themes/bauhaus.svg")'
     },
     urban: {
-      src: 'assets/themes/urban-city.png',
-      image: 'linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.28)),url("assets/themes/urban-city.png")'
+      src: 'assets/themes/urban-city.webp',
+      image: 'linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.28)),url("assets/themes/urban-city.webp")'
     }
   };
   let themeIndex = 0;
@@ -89,7 +152,7 @@
       radialReveal = target.animate([
         { clipPath: `circle(0px at ${x}px ${y}px)` },
         { clipPath: `circle(${radius}px at ${x}px ${y}px)` }
-      ], { duration: 860, easing: 'cubic-bezier(.22,.61,.36,1)' });
+      ], { duration: 1450, easing: 'cubic-bezier(.45,0,.2,1)' });
       radialReveal.onfinish = () => {
         radialReveal?.cancel();
         radialReveal = null;
@@ -113,12 +176,11 @@
       document.body.dataset.theme = theme;
       themeTrigger?.setAttribute('aria-label', `Change visual theme. Current theme: ${themeLabels[theme]}.`);
       if (theme === 'galaxy') startGalaxyAnimation();
-      if (revealPoint) revealThemeAt(nextBackdrop, revealPoint);
       activeThemeBackdrop = theme === 'galaxy' ? null : nextBackdrop;
       if (previousBackdrop && previousBackdrop !== activeThemeBackdrop) {
         window.setTimeout(() => {
           if (activeThemeBackdrop !== previousBackdrop) previousBackdrop.style.backgroundImage = '';
-        }, 1050);
+        }, 750);
       }
     };
     // Assign the selected image only when its theme becomes active. The browser
@@ -299,10 +361,6 @@
   const projection = {flattening: .38, tilt: -.24};
   projection.cos = Math.cos(projection.tilt);
   projection.sin = Math.sin(projection.tilt);
-  const toScreenPlane = (x, y) => ({
-    x: x * projection.cos - y * projection.flattening * projection.sin,
-    y: x * projection.sin + y * projection.flattening * projection.cos
-  });
   const distanceOnOrbitPlane = (x, y, centerX, centerY) => {
     const dx = x - centerX, dy = y - centerY;
     const orbitX = dx * projection.cos + dy * projection.sin;
@@ -311,7 +369,7 @@
   };
   const resize = () => {
     width = innerWidth; height = innerHeight;
-    const pixelRatio = Math.min(devicePixelRatio || 1, 2, Math.sqrt(6000000 / Math.max(1, width * height)));
+    const pixelRatio = Math.min(devicePixelRatio || 1, 1.75, Math.sqrt(3200000 / Math.max(1, width * height)));
     canvas.width = Math.round(width * pixelRatio); canvas.height = Math.round(height * pixelRatio);
     ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
@@ -375,10 +433,16 @@
   addEventListener('scroll', updateScrollTurn, {passive: true});
   addEventListener('scroll', updateThemeParallax, {passive: true});
 
+  const drawSprite = (sprite, x, y, radius, alpha) => {
+      const spriteSize = radius * 16;
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(sprite, x - spriteSize / 2, y - spriteSize / 2, spriteSize, spriteSize);
+    };
+
   const draw = (now = 0) => {
     animationFrame = 0;
     const galaxyActive = document.body.dataset.theme === 'galaxy';
-    if (!galaxyActive) {
+    if (!galaxyActive || document.hidden) {
       ctx.clearRect(0, 0, width, height);
       ctx.globalCompositeOperation = 'source-over';
       lastFrame = 0;
@@ -407,28 +471,28 @@
     }
 
     const centerX = width / 2, centerY = height * .45;
-    const angle = reduced || !galaxyActive ? 0 : galaxyAngle + scrollTurn * (6 * Math.PI / 180);
+    const arrival = heroIntroStart === null ? 1 : Math.min(1, Math.max(0,(now-heroIntroStart)/1850));
+    const settling = (1-arrival) ** 3;
+    const fieldScale = 1 + settling * .16;
+    const angle = reduced || !galaxyActive ? 0 : galaxyAngle + scrollTurn * (6 * Math.PI / 180) - settling * .72;
     const spinCos = Math.cos(angle), spinSin = Math.sin(angle);
     const influenceRadius = Math.min(245, width * .55);
+    const lightDecay = Math.exp(-dt / 820);
     clickWaves = clickWaves.filter(wave => now - wave.born < wave.life);
 
-    const drawSprite = (sprite, x, y, radius, alpha) => {
-      const spriteSize = radius * 16;
-      ctx.globalAlpha = alpha;
-      ctx.drawImage(sprite, x - spriteSize / 2, y - spriteSize / 2, spriteSize, spriteSize);
-    };
+
 
     stars.forEach(star => {
-      const orbitX = star.orbitX * spinCos - star.orbitY * spinSin;
-      const orbitY = star.orbitX * spinSin + star.orbitY * spinCos;
-      const projected = toScreenPlane(orbitX, orbitY);
-      const baseX = centerX + projected.x;
-      const baseY = centerY + projected.y;
+      const orbitX = (star.orbitX * spinCos - star.orbitY * spinSin) * fieldScale;
+      const orbitY = (star.orbitX * spinSin + star.orbitY * spinCos) * fieldScale;
+      // Inline projection avoids allocating an object for every star on every frame.
+      const baseX = centerX + orbitX * projection.cos - orbitY * projection.flattening * projection.sin;
+      const baseY = centerY + orbitX * projection.sin + orbitY * projection.flattening * projection.cos;
       const dx = fieldPointer.x - baseX, dy = fieldPointer.y - baseY;
-      const distance = Math.hypot(dx, dy);
+      const distance = pointerInside && !reduced ? Math.hypot(dx,dy) : Infinity;
       const influence = pointerInside && !reduced
         ? Math.pow(Math.max(0, 1 - distance / influenceRadius), 1.5) : 0;
-      star.light = Math.max(influence, star.light * Math.exp(-dt / 820));
+      star.light = Math.max(influence, star.light * lightDecay);
       const targetX = dx * influence * .085 - pointerVelocity.y * influence * .006;
       const targetY = dy * influence * .085 + pointerVelocity.x * influence * .006;
       if (!reduced) {
@@ -538,15 +602,30 @@
   };
 
   startGalaxyAnimation = () => {
-    if (!reduced && document.body.dataset.theme === 'galaxy' && !animationFrame) {
+    if (!reduced && !document.hidden && document.body.dataset.theme === 'galaxy' && !animationFrame) {
       animationFrame = requestAnimationFrame(draw);
     }
   };
 
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = 0;
+      lastFrame = 0;
+    } else startGalaxyAnimation();
+  });
   resize();
   if (reduced) draw();
   else startGalaxyAnimation();
-  addEventListener('resize', () => { resize(); updateScrollTurn(); updateThemeParallax(); }, {passive: true});
+  let resizeFrame = 0;
+  addEventListener('resize', () => {
+    if (resizeFrame) return;
+    resizeFrame = requestAnimationFrame(() => {
+      resizeFrame = 0;
+      resize(); updateScrollTurn(); updateThemeParallax();
+      if (reduced) draw();
+    });
+  }, {passive:true});
   addEventListener('pointermove', event => {
     if (event.pointerType === 'touch' && event.buttons === 0) return;
     if (blueprintShadow && event.pointerType === 'mouse') {
@@ -714,6 +793,345 @@
   };
   const panelClose = document.querySelector('.panel-close-global');
   let activePanelTrigger = null;
+  const projectDetail = document.querySelector('#project-detail');
+  const projectDetailContent = document.querySelector('#project-detail-content');
+  const projectDetailDialog = projectDetail?.querySelector('.project-detail-dialog');
+  let projectDetailOrigin = null;
+  let panelCloseWasHidden = true;
+  const projectBriefs = {
+  "01": {
+    "aim": "Create a modern finance app for tracking money, finances, applications and cards, with personalised settings and a simple, modern experience.",
+    "direction": "Clear, legible and accessible, with straightforward interactions, zero clutter and no ads.",
+    "tools": "Figma, Codex, HTML, Java, image rendering, prompt engineering, AI methodologies and data analysis.",
+    "media": [
+      "assets/project-overviews/01-01.webp",
+      "assets/project-overviews/01-02.webp",
+      "assets/project-overviews/01-03.webp",
+      "assets/project-overviews/01-04.webp"
+    ],
+    "tags": [
+      "AI",
+      "B2C",
+      "ENTERPRISE"
+    ]
+  },
+  "02": {
+    "aim": "Create a modern crypto news experience that helps newcomers understand and explore a complex subject.",
+    "direction": "A modern, glassy interface with familiar, understandable information.",
+    "tools": "AI, Figma, ChatGPT Codex, sketching, iteration and prompt engineering.",
+    "media": [
+      "assets/project-overviews/02-01.webp",
+      "assets/project-overviews/02-02.webp",
+      "assets/project-overviews/02-03.webp",
+      "assets/project-overviews/02-04.webp",
+      "assets/project-overviews/02-05.png"
+    ],
+    "tags": []
+  },
+  "03": {
+    "aim": "Explore the possibilities of AI and data through an interactive historical tsunami tracker, where visitors can examine events and their scale.",
+    "direction": "A location-focused globe and interactive timeline make tsunami history easy to explore.",
+    "tools": "Figma, AI, WebGL, JavaScript and CSS, combining map research with a public tsunami data repository.",
+    "media": [
+      "assets/project-overviews/03-01.webp",
+      "assets/project-overviews/03-02.webp",
+      "assets/project-overviews/03-03.webp",
+      "assets/project-overviews/03-04.webp",
+      "assets/project-overviews/03-05.webp"
+    ],
+    "tags": []
+  },
+  "04": {
+    "aim": "Enhance the Maruti Suzuki Nexa digital experience. At frog design, Capgemini Invent, I worked with a team of seven to eight designers throughout the journey from zero to one.",
+    "direction": "Following discussions with stakeholders in Japan and India, the direction balanced simplicity with the legacy of the brand and its large audience.",
+    "tools": "Figma, Miro, Adobe Photoshop, Lightroom, animation, sketching and user research.",
+    "media": [
+      "assets/project-overviews/04-01.webp",
+      "assets/project-overviews/04-02.webp",
+      "assets/project-overviews/04-03.webp",
+      "assets/project-overviews/04-04.webp"
+    ],
+    "tags": []
+  },
+  "05": {
+    "aim": "Uplift Maruti Suzuki Arena’s digital experience as a client project, making it easier for people to discover vehicles and take the next step.",
+    "direction": "A simple, accessible automotive journey shaped by client and stakeholder discussions, with clear vehicle information and actions.",
+    "tools": "Figma, Miro, Adobe Photoshop, Lightroom, animation, sketching and user research.",
+    "media": [
+      "assets/project-overviews/05-01.webp",
+      "assets/project-overviews/05-02.webp",
+      "assets/project-overviews/05-03.webp",
+      "assets/project-overviews/05-04.webp"
+    ],
+    "tags": []
+  },
+  "06": {
+    "aim": "Create an engaging test experience with clear progress, intuitive movement between questions and a satisfying conclusion.",
+    "direction": "Simple and educational for children and adults, with a human-centred approach.",
+    "tools": "Online research, IQ test research papers, existing tests, Figma and AI tools.",
+    "media": [
+      "assets/project-overviews/06-01.webp",
+      "assets/project-overviews/06-02.webp",
+      "assets/project-overviews/06-03.webp"
+    ],
+    "tags": [
+      "EDUTECH",
+      "AI USAGE"
+    ]
+  },
+  "07": {
+    "aim": "Design an internal TCS crisis management tool that helps employees communicate and follow protocols, with potential for use by clients worldwide.",
+    "direction": "An informative enterprise experience with dashboard patterns, designed for Android and iOS.",
+    "tools": "Adobe XD, Figma, Miro, prototyping, animation and AI.",
+    "media": [
+      "assets/project-overviews/07-01.webp",
+      "assets/project-overviews/07-02.webp",
+      "assets/project-overviews/07-03.webp",
+      "assets/project-overviews/07-04.webp",
+      "assets/project-overviews/07-05.webp",
+      "assets/project-overviews/07-06.webp"
+    ],
+    "tags": [
+      "CRISIS MANAGEMENT",
+      "ENTERPRISE",
+      "B2B",
+      "B2C APP"
+    ]
+  },
+  "08": {
+    "aim": "Create an application for exploring analytics about solar energy and the green energy movement.",
+    "direction": "Simple, educational and informative, with a visual language inspired by the Earth and greenery.",
+    "tools": "AI-assisted energy research, Figma, internet research, AI agents and data analysis.",
+    "media": [
+      "assets/project-overviews/08-01.webp",
+      "assets/project-overviews/08-02.webp",
+      "assets/project-overviews/08-03.webp",
+      "assets/project-overviews/08-04.webp"
+    ],
+    "tags": [
+      "ENERGY TECH",
+      "GREEN ENERGY",
+      "AI"
+    ]
+  },
+  "09": {
+    "aim": "Research and design a hiring and interview experience, moving from UX research into visual and interface design.",
+    "direction": "A simple, playful experience designed primarily for freshers.",
+    "tools": "Adobe XD, Photoshop, Figma, Miro and online collaboration in a team of three designers.",
+    "media": [
+      "assets/project-overviews/09-01.webp",
+      "assets/project-overviews/09-02.webp",
+      "assets/project-overviews/09-03.webp",
+      "assets/project-overviews/09-04.webp",
+      "assets/project-overviews/09-05.webp",
+      "assets/project-overviews/09-06.webp"
+    ],
+    "tags": [
+      "UX RESEARCH",
+      "UX DESIGN",
+      "UX METHODOLOGY"
+    ]
+  },
+  "10": {
+    "aim": "Develop a data organisation and sharing app through UX research, user testing, card sorting and exploration. This research was undertaken after college with a batchmate.",
+    "direction": "An educational, academic and informative experience that makes information easy to access.",
+    "tools": "Photoshop, Figma, Adobe XD, collaboration, card sorting and sketching.",
+    "media": [
+      "assets/project-overviews/10-01.webp",
+      "assets/project-overviews/10-02.webp",
+      "assets/project-overviews/10-03.webp",
+      "assets/project-overviews/10-04.webp",
+      "assets/project-overviews/10-05.webp",
+      "assets/project-overviews/10-06.webp"
+    ],
+    "tags": []
+  },
+  "11": {
+    "aim": "Explore mixed reality and virtual reality as tools for understanding socio-technical systems and urban planning, including the different layers of a city and communication.",
+    "direction": "A research-led Siemens case study to develop ideas and conclusions for future product iterations.",
+    "tools": "MR/VR research and studies, prototyping, Microsoft VR and Xbox Kinect.",
+    "media": [
+      "assets/project-overviews/11-01.webp",
+      "assets/project-overviews/11-02.webp",
+      "assets/project-overviews/11-03.webp",
+      "assets/project-overviews/11-04.webp"
+    ],
+    "tags": [
+      "AUGMENTED REALITY",
+      "UX RESEARCH",
+      "TELECOM RESEARCH",
+      "ARCHITECTURE"
+    ]
+  },
+  "12": {
+    "aim": "Explain and self-evaluate my design process.",
+    "direction": "A tabular presentation with a scroll wheel interaction.",
+    "tools": "AI, Vite, CSS and Figma.",
+    "media": [],
+    "tags": []
+  },
+  "13": {
+    "aim": "Explore AI, coding and whiteboarding by creating a game to share with friends and keep track of high scores.",
+    "direction": "A pirate theme, subtle animations, ocean sounds and visuals that are understandable to children and adults.",
+    "tools": "AI research, AI design, game design, Figma and Adobe.",
+    "media": [
+      "assets/project-overviews/13-01.webp",
+      "assets/project-overviews/13-02.webp"
+    ],
+    "tags": []
+  },
+  "14": {
+    "aim": "Create a visual representation of an AI agent that makes agentic and human behaviour more understandable through human-computer interaction.",
+    "direction": "Playful, simple and adventurous, inspired by Pokémon.",
+    "tools": "AI and Figma.",
+    "media": [
+      "assets/thumbnails/wolfy.webp",
+      "assets/project-overviews/14-01.webp",
+      "assets/project-overviews/14-02.webp",
+      "assets/project-overviews/14-03.webp"
+    ],
+    "tags": [
+      "ANIMATION",
+      "MOTION DESIGN",
+      "GRAPHICS"
+    ]
+  }
+};
+  const escapeHTML = value => String(value).replace(/[&<>"']/g, character => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[character]);
+  const renderProjectDetail = card => {
+    const index = card.querySelector('.project-index')?.textContent.trim() || '';
+    const originalTitle = card.querySelector('h3')?.textContent.trim() || 'Selected project';
+    const title = ({'07':'TCS Crisis Management Application','11':'Siemens MR/VR — Socio-Technical Systems','12':'Eesh self grading his design process','14':'Wolfie Daily AI Agent Companion'})[index] || originalTitle;
+    const summary = card.querySelector('.project-caption p')?.textContent.trim() || '';
+    const tags = [...card.querySelectorAll('.project-tags span')].map(tag => tag.textContent.trim());
+    const brief = projectBriefs[index] || {};
+    tags.push(...(brief.tags || []));
+    const fullDesignUrl = card.getAttribute('href');
+    const sections = [['Aim', brief.aim], ['Design direction', brief.direction], ['Tools & methods', brief.tools]];
+    const media = brief.media || [];
+    const gallery = media.map((src, slot) => `
+      <div class="project-media-placeholder project-media-image" role="group" aria-roledescription="slide" aria-label="${slot + 1} of ${media.length}: ${escapeHTML(title)}">
+        <img src="${escapeHTML(src)}" alt="${escapeHTML(title)} project image ${slot + 1}" loading="lazy">
+      </div>`).join('');
+    projectDetailContent.innerHTML = `
+      <section class="project-detail-heading">
+        <div class="project-detail-heading-main">
+          <h1 id="project-detail-title">${escapeHTML(title)}</h1>
+          <p class="project-detail-summary">${escapeHTML(summary)}</p>
+        </div>
+        <div class="project-detail-actions">
+          <a class="project-detail-primary" href="${escapeHTML(fullDesignUrl)}" target="_blank" rel="noopener noreferrer" title="Opens in a new tab">View full design <span aria-hidden="true">↗</span></a>
+          <div class="project-detail-tags">${tags.map(tag => `<span>${escapeHTML(tag)}</span>`).join('')}</div>
+        </div>
+      </section>
+      <section class="project-detail-gallery" aria-label="Project media gallery" ${media.length ? "" : "hidden"}>
+        <div class="project-media-carousel" role="region" aria-roledescription="carousel" aria-label="Project images and videos for ${escapeHTML(title)}" tabindex="0">
+          <div class="project-media-viewport"><div class="project-media-track">${gallery}</div></div>
+          <div class="project-media-controls">
+            <button class="project-media-arrow" type="button" data-media-prev aria-label="Previous media">←</button>
+            <div class="project-media-pagination" role="group" aria-label="Choose a media slide">
+              ${Array.from({length: media.length}, (_, slot) => `<button class="project-media-marker${slot === 0 ? ' is-active' : ''}" type="button" data-media-index="${slot}" aria-label="Show media ${slot + 1} of ${media.length}" aria-pressed="${slot === 0}"><span></span></button>`).join('')}
+            </div>
+            <button class="project-media-arrow" type="button" data-media-next aria-label="Next media">→</button>
+            <span class="project-media-status" aria-live="polite">Media 1 of ${media.length}</span>
+          </div>
+        </div>
+      </section>
+      <section class="project-detail-overview">
+        <div class="project-detail-overview-lead"><p class="project-detail-kicker">THE PROJECT</p><p>${escapeHTML(summary)}</p></div>
+        <div class="project-detail-brief-grid">${sections.map(([label, copy]) => `
+          <article class="project-detail-brief"><h2>${escapeHTML(label)}</h2><p>${escapeHTML(copy || summary)}</p></article>`).join('')}
+
+        </div>
+      </section>
+      `;
+    const mobileLink = projectDetailDialog.querySelector('.project-detail-mobile-link');
+    if (mobileLink) mobileLink.href = fullDesignUrl;
+
+    const carousel = projectDetailContent.querySelector('.project-media-carousel');
+    const track = carousel?.querySelector('.project-media-track');
+    const viewport = carousel?.querySelector('.project-media-viewport');
+    const slides = [...(track?.children || [])];
+    const markers = [...(carousel?.querySelectorAll('[data-media-index]') || [])];
+    const previous = carousel?.querySelector('[data-media-prev]');
+    const next = carousel?.querySelector('[data-media-next]');
+    const status = carousel?.querySelector('.project-media-status');
+    let activeSlide = 0;
+    const showSlide = requestedIndex => {
+      activeSlide = Math.max(0, Math.min(slides.length - 1, requestedIndex));
+      if (track) track.style.transform = `translate3d(-${activeSlide * 100}%, 0, 0)`;
+      slides.forEach((slide, slideIndex) => slide.setAttribute('aria-hidden', String(slideIndex !== activeSlide)));
+      markers.forEach((marker, slideIndex) => {
+        const active = slideIndex === activeSlide;
+        marker.classList.toggle('is-active', active);
+        marker.setAttribute('aria-pressed', String(active));
+      });
+      if (previous) previous.disabled = activeSlide === 0;
+      if (next) next.disabled = activeSlide === slides.length - 1;
+      if (status) status.textContent = `Media ${activeSlide + 1} of ${slides.length}`;
+    };
+    previous?.addEventListener('click', () => showSlide(activeSlide - 1));
+    next?.addEventListener('click', () => showSlide(activeSlide + 1));
+    markers.forEach(marker => marker.addEventListener('click', () => showSlide(Number(marker.dataset.mediaIndex))));
+    carousel?.addEventListener('keydown', event => {
+      if (event.key === 'ArrowLeft') { event.preventDefault(); showSlide(activeSlide - 1); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); showSlide(activeSlide + 1); }
+    });
+    let pointerStartX = null;
+    viewport?.addEventListener('pointerdown', event => { pointerStartX = event.clientX; });
+    viewport?.addEventListener('pointerup', event => {
+      if (pointerStartX === null) return;
+      const distance = event.clientX - pointerStartX;
+      pointerStartX = null;
+      if (Math.abs(distance) > 44) showSlide(activeSlide + (distance < 0 ? 1 : -1));
+    });
+    viewport?.addEventListener('pointercancel', () => { pointerStartX = null; });
+    showSlide(0);
+  };
+  const openProjectDetail = card => {
+    if (!projectDetail || !projectDetailContent || !projectDetailDialog) return;
+    projectDetailOrigin = card;
+    panelCloseWasHidden = panelClose?.hidden ?? true;
+    if (panelClose) panelClose.hidden = true;
+    renderProjectDetail(card);
+    projectDetail.hidden = false;
+    projectDetail.removeAttribute('inert');
+    projectDetail.setAttribute('aria-hidden', 'false');
+    stage?.setAttribute('inert', '');
+    document.documentElement.classList.add('project-detail-open');
+    document.body.classList.add('project-detail-open');
+    projectDetailContent.scrollTop = 0;
+    requestAnimationFrame(() => projectDetail.querySelector('.project-detail-back-bottom')?.focus());
+  };
+  const closeProjectDetail = () => {
+    if (!projectDetail || projectDetail.hidden) return;
+    projectDetail.setAttribute('aria-hidden', 'true');
+    projectDetail.setAttribute('inert', '');
+    projectDetail.hidden = true;
+    stage?.removeAttribute('inert');
+    document.documentElement.classList.remove('project-detail-open');
+    document.body.classList.remove('project-detail-open');
+    if (panelClose) panelClose.hidden = panelCloseWasHidden;
+    const origin = projectDetailOrigin;
+    projectDetailOrigin = null;
+    origin?.focus();
+  };
+  document.querySelectorAll('.work-panel .project-card:not(.project-more-card)').forEach(card => {
+    card.setAttribute('aria-haspopup', 'dialog');
+    const title = card.querySelector('h3')?.textContent.trim();
+    if (title) card.setAttribute('aria-label', `Open project overview for ${title}`);
+  });
+  document.querySelector('.project-grid')?.addEventListener('click', event => {
+    const card = event.target.closest('.project-card:not(.project-more-card)');
+    if (!card || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    openProjectDetail(card);
+  });
+  projectDetail?.addEventListener('click', event => {
+    if (event.target.closest('[data-detail-close]')) closeProjectDetail();
+  });
   const panelTriggers = [...document.querySelectorAll('[data-open-panel]')];
   const setPanel = (name, trigger = null) => {
     const nextName = stage?.dataset.panel === name ? '' : (panels[name] ? name : '');
@@ -771,6 +1189,25 @@
   });
   document.querySelectorAll('.panel-close').forEach(button => button.addEventListener('click', () => setPanel('')));
   document.addEventListener('keydown', event => {
+    if (projectDetail && !projectDetail.hidden) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeProjectDetail();
+        return;
+      }
+      if (event.key === 'Tab') {
+        const focusable = [...projectDetail.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])')]
+          .filter(element => !element.closest('[inert]') && element.getClientRects().length);
+        if (!focusable.length) return;
+        const first = focusable[0], last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault(); last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault(); first.focus();
+        }
+      }
+      return;
+    }
     if (event.key === 'Escape' && stage?.dataset.panel) setPanel('');
     if (event.key === 'Tab' && stage?.dataset.panel) {
       const activePanel = panels[stage.dataset.panel];
@@ -828,3 +1265,14 @@
     revealTargets.forEach(el => observer.observe(el));
   } else revealTargets.forEach(el => el.classList.add('visible'));
 })();
+
+// Reveal each project as it enters the works panel.
+if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const worksPanel = document.querySelector('#work-panel');
+  if (worksPanel) {
+    const projectObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('project-revealed'); projectObserver.unobserve(entry.target); }
+    }), {root: worksPanel, threshold: 0.08});
+    worksPanel.querySelectorAll('.project-card').forEach(card => { card.classList.add('project-reveal'); projectObserver.observe(card); });
+  }
+}

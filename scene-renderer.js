@@ -562,7 +562,11 @@
     if (theme !== activeTheme) activate(theme);
   });
   observer.observe(body, {attributes: true, attributeFilter: ['data-theme']});
-  addEventListener('resize', resize, {passive: true});
+  let resizeFrame = 0;
+  addEventListener('resize', () => {
+    if (resizeFrame) return;
+    resizeFrame = requestAnimationFrame(() => {resizeFrame=0;resize();});
+  }, {passive:true});
   addEventListener('scroll', measurePageScroll, {passive: true});
   document.addEventListener('visibilitychange', () => {
     stop();

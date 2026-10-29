@@ -1,0 +1,38 @@
+/* All rules are scoped to this removable intro layer. */
+html.ish-intro-active body{overflow:hidden!important;overscroll-behavior:none}
+html.ish-intro-active body > :not(canvas):not(script):not(style):not(link):not(.theme-backdrop):not(#ish-cinematic-intro){opacity:0!important;pointer-events:none!important}
+html.ish-intro-active.ish-intro-revealing body > :not(canvas):not(script):not(style):not(link):not(.theme-backdrop):not(#ish-cinematic-intro){opacity:1!important;transition:opacity .34s ease!important}
+#ish-cinematic-intro{position:fixed;inset:0;z-index:2147483000;isolation:isolate;color:#f5f2eb;overflow:hidden;font-family:Inter,Arial,sans-serif;touch-action:none}
+#ish-cinematic-intro *{box-sizing:border-box}
+.ish-intro-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ish-intro-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.28),transparent 27%,transparent 65%,rgba(0,0,0,.45));pointer-events:none}
+.ish-intro-title{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0;padding:7vw;text-align:center;pointer-events:none;font-size:clamp(64px,11vw,172px);line-height:.86;font-weight:700;letter-spacing:-.075em;text-transform:uppercase;text-shadow:0 2px 45px rgba(0,0,0,.24);will-change:opacity,transform}
+.ish-intro-title span{display:block}
+.ish-intro-title--answer{font-size:clamp(55px,8.3vw,134px);line-height:.94;text-transform:none;letter-spacing:-.065em;opacity:0}
+.ish-intro-title--answer em{font:italic 1.11em/.98 'Instrument Serif',Georgia,serif;letter-spacing:-.045em;font-weight:400}
+.ish-intro-caption{position:absolute;left:max(28px,env(safe-area-inset-left));bottom:max(28px,env(safe-area-inset-bottom));font:10px/1.4 'DM Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+.ish-intro-skip{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));min-height:44px;min-width:70px;border:0;border-radius:0;background:transparent;color:rgba(255,255,255,.8);font:10px/1.4 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;text-transform:uppercase}
+.ish-intro-skip:hover{color:white}
+.ish-intro-skip:focus-visible{outline:1px solid currentColor;outline-offset:-3px}
+.ish-intro-track{position:absolute;left:0;bottom:0;height:1px;width:100%;background:rgba(255,255,255,.42);transform-origin:left;transform:scaleX(0)}
+@media(max-width:600px){
+ .ish-intro-title{font-size:clamp(49px,14.4vw,85px);padding:18px;line-height:.91;letter-spacing:-.065em}
+ .ish-intro-title--answer{font-size:clamp(46px,12.6vw,76px);line-height:1.02}
+ .ish-intro-caption{font-size:8px;left:22px;bottom:max(29px,env(safe-area-inset-bottom))}
+}
+@media(prefers-reduced-motion:reduce){#ish-cinematic-intro{display:none!important}html.ish-intro-active body{overflow:initial!important}html.ish-intro-active body > :not(canvas):not(script):not(style):not(link):not(.theme-backdrop):not(#ish-cinematic-intro){opacity:1!important;pointer-events:auto!important}}
+
+/* Cinematic edition: extruded title planes, foil-like light and a tight impact. */
+.ish-intro-title{padding:3vw;font-family:Impact,'Arial Narrow','Helvetica Neue',sans-serif;font-weight:900;font-size:clamp(90px,19vw,290px);line-height:.79;letter-spacing:-.035em;perspective:1000px;transform-style:preserve-3d;text-shadow:0 1px 0 #dbd3c5,0 2px 0 #aaa398,0 3px 0 #78736b,0 5px 0 #3c3b38,0 9px 25px #0009}
+.ish-intro-title span,.ish-intro-title strong{transform-origin:50% 65%;backface-visibility:hidden;will-change:transform,opacity;white-space:nowrap;background:linear-gradient(110deg,#c9c3b7 0%,#fffdf3 35%,#fff 45%,#d4c8ac 53%,#fffdf3 68%,#d6d3c9 100%);background-size:180% 100%;background-position:var(--title-light,20%) center;-webkit-background-clip:text;background-clip:text;color:transparent}
+.ish-intro-title--answer{font-size:clamp(80px,18.5vw,285px);line-height:.83;text-transform:uppercase;letter-spacing:-.035em}
+.ish-intro-title--answer span{font-size:.52em;line-height:1.05;letter-spacing:.015em}
+.ish-intro-title--answer strong{font:inherit;font-weight:900}
+.ish-intro-caption{letter-spacing:.22em;font-size:9px}
+.ish-intro-shade{background:radial-gradient(ellipse at 50% 45%,transparent 35%,#0008 100%),linear-gradient(180deg,#0002,transparent 35%,transparent 65%,#0006)}
+@media(max-width:600px){
+ .ish-intro-title{font-size:clamp(62px,22vw,125px);padding:10px;line-height:.85;letter-spacing:-.035em}
+ .ish-intro-title--answer{font-size:clamp(62px,21.5vw,123px);line-height:.85}
+ .ish-intro-title--answer span{font-size:.56em}
+ .ish-intro-caption{font-size:8px}
+}
