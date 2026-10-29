@@ -107,32 +107,32 @@
   };
   const themeBackgrounds = {
     cloud: {
-      src: 'assets/themes/cloud-sky.webp',
-      image: 'linear-gradient(180deg,rgba(3,9,17,.38),rgba(3,8,14,.56)),url("assets/themes/cloud-sky.webp")'
+      src: '/themes/cloud-sky.webp',
+      image: 'linear-gradient(180deg,rgba(3,9,17,.38),rgba(3,8,14,.56)),url("/themes/cloud-sky.webp")'
     },
     anime: {
-      src: 'assets/themes/anime-sky.webp',
-      image: 'linear-gradient(180deg,rgba(3,5,17,.38),rgba(3,5,15,.5)),url("assets/themes/anime-sky.webp")'
+      src: '/themes/anime-sky.webp',
+      image: 'linear-gradient(180deg,rgba(3,5,17,.38),rgba(3,5,15,.5)),url("/themes/anime-sky.webp")'
     },
     mural: {
-      src: 'assets/themes/mumbai-mural.webp',
-      image: 'linear-gradient(180deg,rgba(31,7,13,.38),rgba(17,4,9,.54)),url("assets/themes/mumbai-mural.webp")'
+      src: '/themes/mumbai-mural.webp',
+      image: 'linear-gradient(180deg,rgba(31,7,13,.38),rgba(17,4,9,.54)),url("/themes/mumbai-mural.webp")'
     },
     blueprint: {
-      src: 'assets/themes/blueprint-grid.webp',
-      image: 'linear-gradient(180deg,rgba(9,35,84,.08),rgba(7,28,72,.18)),url("assets/themes/blueprint-grid.webp")'
+      src: '/themes/blueprint-grid.webp',
+      image: 'linear-gradient(180deg,rgba(9,35,84,.08),rgba(7,28,72,.18)),url("/themes/blueprint-grid.webp")'
     },
     underwater: {
-      src: 'assets/themes/underwater.webp',
-      image: 'linear-gradient(180deg,rgba(0,34,48,.18),rgba(0,15,27,.42)),url("assets/themes/underwater.webp")'
+      src: '/themes/underwater.webp',
+      image: 'linear-gradient(180deg,rgba(0,34,48,.18),rgba(0,15,27,.42)),url("/themes/underwater.webp")'
     },
     bauhaus: {
-      src: 'assets/themes/bauhaus.svg',
-      image: 'linear-gradient(180deg,rgba(20,19,22,.05),rgba(20,19,22,.12)),url("assets/themes/bauhaus.svg")'
+      src: '/themes/bauhaus.svg',
+      image: 'linear-gradient(180deg,rgba(20,19,22,.05),rgba(20,19,22,.12)),url("/themes/bauhaus.svg")'
     },
     urban: {
-      src: 'assets/themes/urban-city.webp',
-      image: 'linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.28)),url("assets/themes/urban-city.webp")'
+      src: '/themes/urban-city.webp',
+      image: 'linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.28)),url("/themes/urban-city.webp")'
     }
   };
   let themeIndex = 0;
@@ -804,10 +804,10 @@
     "direction": "Clear, legible and accessible, with straightforward interactions, zero clutter and no ads.",
     "tools": "Figma, Codex, HTML, Java, image rendering, prompt engineering, AI methodologies and data analysis.",
     "media": [
-      "assets/project-overviews/01-01.webp",
-      "assets/project-overviews/01-02.webp",
-      "assets/project-overviews/01-03.webp",
-      "assets/project-overviews/01-04.webp"
+      "/project-overviews/01-01.webp",
+      "/project-overviews/01-02.webp",
+      "/project-overviews/01-03.webp",
+      "/project-overviews/01-04.webp"
     ],
     "tags": [
       "AI",
@@ -820,11 +820,11 @@
     "direction": "A modern, glassy interface with familiar, understandable information.",
     "tools": "AI, Figma, ChatGPT Codex, sketching, iteration and prompt engineering.",
     "media": [
-      "assets/project-overviews/02-01.webp",
-      "assets/project-overviews/02-02.webp",
-      "assets/project-overviews/02-03.webp",
-      "assets/project-overviews/02-04.webp",
-      "assets/project-overviews/02-05.png"
+      "/project-overviews/02-01.webp",
+      "/project-overviews/02-02.webp",
+      "/project-overviews/02-03.webp",
+      "/project-overviews/02-04.webp",
+      "/project-overviews/02-05.png"
     ],
     "tags": []
   },
@@ -833,11 +833,11 @@
     "direction": "A location-focused globe and interactive timeline make tsunami history easy to explore.",
     "tools": "Figma, AI, WebGL, JavaScript and CSS, combining map research with a public tsunami data repository.",
     "media": [
-      "assets/project-overviews/03-01.webp",
-      "assets/project-overviews/03-02.webp",
-      "assets/project-overviews/03-03.webp",
-      "assets/project-overviews/03-04.webp",
-      "assets/project-overviews/03-05.webp"
+      "/project-overviews/03-01.webp",
+      "/project-overviews/03-02.webp",
+      "/project-overviews/03-03.webp",
+      "/project-overviews/03-04.webp",
+      "/project-overviews/03-05.webp"
     ],
     "tags": []
   },
@@ -846,10 +846,10 @@
     "direction": "Following discussions with stakeholders in Japan and India, the direction balanced simplicity with the legacy of the brand and its large audience.",
     "tools": "Figma, Miro, Adobe Photoshop, Lightroom, animation, sketching and user research.",
     "media": [
-      "assets/project-overviews/04-01.webp",
-      "assets/project-overviews/04-02.webp",
-      "assets/project-overviews/04-03.webp",
-      "assets/project-overviews/04-04.webp"
+      "/project-overviews/04-01.webp",
+      "/project-overviews/04-02.webp",
+      "/project-overviews/04-03.webp",
+      "/project-overviews/04-04.webp"
     ],
     "tags": []
   },
@@ -858,10 +858,10 @@
     "direction": "A simple, accessible automotive journey shaped by client and stakeholder discussions, with clear vehicle information and actions.",
     "tools": "Figma, Miro, Adobe Photoshop, Lightroom, animation, sketching and user research.",
     "media": [
-      "assets/project-overviews/05-01.webp",
-      "assets/project-overviews/05-02.webp",
-      "assets/project-overviews/05-03.webp",
-      "assets/project-overviews/05-04.webp"
+      "/project-overviews/05-01.webp",
+      "/project-overviews/05-02.webp",
+      "/project-overviews/05-03.webp",
+      "/project-overviews/05-04.webp"
     ],
     "tags": []
   },
@@ -870,9 +870,9 @@
     "direction": "Simple and educational for children and adults, with a human-centred approach.",
     "tools": "Online research, IQ test research papers, existing tests, Figma and AI tools.",
     "media": [
-      "assets/project-overviews/06-01.webp",
-      "assets/project-overviews/06-02.webp",
-      "assets/project-overviews/06-03.webp"
+      "/project-overviews/06-01.webp",
+      "/project-overviews/06-02.webp",
+      "/project-overviews/06-03.webp"
     ],
     "tags": [
       "EDUTECH",
@@ -884,12 +884,12 @@
     "direction": "An informative enterprise experience with dashboard patterns, designed for Android and iOS.",
     "tools": "Adobe XD, Figma, Miro, prototyping, animation and AI.",
     "media": [
-      "assets/project-overviews/07-01.webp",
-      "assets/project-overviews/07-02.webp",
-      "assets/project-overviews/07-03.webp",
-      "assets/project-overviews/07-04.webp",
-      "assets/project-overviews/07-05.webp",
-      "assets/project-overviews/07-06.webp"
+      "/project-overviews/07-01.webp",
+      "/project-overviews/07-02.webp",
+      "/project-overviews/07-03.webp",
+      "/project-overviews/07-04.webp",
+      "/project-overviews/07-05.webp",
+      "/project-overviews/07-06.webp"
     ],
     "tags": [
       "CRISIS MANAGEMENT",
@@ -903,10 +903,10 @@
     "direction": "Simple, educational and informative, with a visual language inspired by the Earth and greenery.",
     "tools": "AI-assisted energy research, Figma, internet research, AI agents and data analysis.",
     "media": [
-      "assets/project-overviews/08-01.webp",
-      "assets/project-overviews/08-02.webp",
-      "assets/project-overviews/08-03.webp",
-      "assets/project-overviews/08-04.webp"
+      "/project-overviews/08-01.webp",
+      "/project-overviews/08-02.webp",
+      "/project-overviews/08-03.webp",
+      "/project-overviews/08-04.webp"
     ],
     "tags": [
       "ENERGY TECH",
@@ -919,12 +919,12 @@
     "direction": "A simple, playful experience designed primarily for freshers.",
     "tools": "Adobe XD, Photoshop, Figma, Miro and online collaboration in a team of three designers.",
     "media": [
-      "assets/project-overviews/09-01.webp",
-      "assets/project-overviews/09-02.webp",
-      "assets/project-overviews/09-03.webp",
-      "assets/project-overviews/09-04.webp",
-      "assets/project-overviews/09-05.webp",
-      "assets/project-overviews/09-06.webp"
+      "/project-overviews/09-01.webp",
+      "/project-overviews/09-02.webp",
+      "/project-overviews/09-03.webp",
+      "/project-overviews/09-04.webp",
+      "/project-overviews/09-05.webp",
+      "/project-overviews/09-06.webp"
     ],
     "tags": [
       "UX RESEARCH",
@@ -937,12 +937,12 @@
     "direction": "An educational, academic and informative experience that makes information easy to access.",
     "tools": "Photoshop, Figma, Adobe XD, collaboration, card sorting and sketching.",
     "media": [
-      "assets/project-overviews/10-01.webp",
-      "assets/project-overviews/10-02.webp",
-      "assets/project-overviews/10-03.webp",
-      "assets/project-overviews/10-04.webp",
-      "assets/project-overviews/10-05.webp",
-      "assets/project-overviews/10-06.webp"
+      "/project-overviews/10-01.webp",
+      "/project-overviews/10-02.webp",
+      "/project-overviews/10-03.webp",
+      "/project-overviews/10-04.webp",
+      "/project-overviews/10-05.webp",
+      "/project-overviews/10-06.webp"
     ],
     "tags": []
   },
@@ -951,10 +951,10 @@
     "direction": "A research-led Siemens case study to develop ideas and conclusions for future product iterations.",
     "tools": "MR/VR research and studies, prototyping, Microsoft VR and Xbox Kinect.",
     "media": [
-      "assets/project-overviews/11-01.webp",
-      "assets/project-overviews/11-02.webp",
-      "assets/project-overviews/11-03.webp",
-      "assets/project-overviews/11-04.webp"
+      "/project-overviews/11-01.webp",
+      "/project-overviews/11-02.webp",
+      "/project-overviews/11-03.webp",
+      "/project-overviews/11-04.webp"
     ],
     "tags": [
       "AUGMENTED REALITY",
@@ -975,8 +975,8 @@
     "direction": "A pirate theme, subtle animations, ocean sounds and visuals that are understandable to children and adults.",
     "tools": "AI research, AI design, game design, Figma and Adobe.",
     "media": [
-      "assets/project-overviews/13-01.webp",
-      "assets/project-overviews/13-02.webp"
+      "/project-overviews/13-01.webp",
+      "/project-overviews/13-02.webp"
     ],
     "tags": []
   },
@@ -985,10 +985,10 @@
     "direction": "Playful, simple and adventurous, inspired by Pokémon.",
     "tools": "AI and Figma.",
     "media": [
-      "assets/thumbnails/wolfy.webp",
-      "assets/project-overviews/14-01.webp",
-      "assets/project-overviews/14-02.webp",
-      "assets/project-overviews/14-03.webp"
+      "/thumbnails/wolfy.webp",
+      "/project-overviews/14-01.webp",
+      "/project-overviews/14-02.webp",
+      "/project-overviews/14-03.webp"
     ],
     "tags": [
       "ANIMATION",
