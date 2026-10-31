@@ -1708,3 +1708,69 @@ html.project-detail-open,body.project-detail-open{overflow:hidden;overscroll-beh
 .hero-actions .panel-trigger span{display:none}
 .hero-actions .panel-trigger:hover{border-color:rgba(205,228,248,.42);box-shadow:none}
 .hero-actions .panel-trigger:focus-visible{outline:1px solid rgba(205,228,248,.85);outline-offset:3px}
+
+/* Project detail: compact side-by-side reading on desktop. */
+@media (min-width: 901px){
+  .project-detail-content{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(28px,4vw,64px);align-content:start;align-items:start;max-width:1500px;margin:0 auto;padding:clamp(24px,4vh,48px) clamp(32px,5vw,76px) 32px}
+  .project-detail-heading{grid-column:1/-1;width:100%;margin:0 auto clamp(24px,3vh,38px)}
+  .project-detail-gallery,.project-detail-overview{width:100%;min-width:0;margin:0}
+  .project-media-placeholder{min-height:0;aspect-ratio:1 / 1}
+  .project-media-image img{object-position:left center}
+  .project-detail-overview{padding:0}
+  .project-detail-brief-grid{grid-template-columns:1fr;gap:0}
+  .project-detail-brief{min-height:0;padding:clamp(12px,2vh,22px) 0}
+  .project-detail-brief:first-child{padding-top:0}
+  .project-detail-brief p{font-size:clamp(12px,1vw,15px);line-height:1.65}
+}
+/* A single consistent, accessible back action for each panel. */
+.panel-close-global,.project-detail-back-bottom{width:56px;height:56px;min-height:56px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(180,218,245,.35);background:rgba(3,7,12,.88);box-shadow:0 6px 24px rgba(0,0,0,.3);transition:background .2s,border-color .2s,box-shadow .2s}
+.panel-close-global span,.project-detail-back-bottom span{font:26px/1 var(--sans);color:#b2dcf6}
+.panel-close-global:hover,.project-detail-back-bottom:hover{background:rgba(66,114,151,.45);border-color:rgba(200,232,255,.9);box-shadow:0 0 22px rgba(151,207,246,.25)}
+.panel-close-global:focus-visible,.project-detail-back-bottom:focus-visible{outline:2px solid #c1e6ff;outline-offset:3px}
+@media(max-width:760px){.panel-close-global,.project-detail-back-bottom{width:52px;height:52px;min-height:52px}.project-detail-back-bottom{margin:0 auto calc(12px + env(safe-area-inset-bottom))}}
+@media (min-width:901px){.project-detail-gallery{max-width:min(100%,52vh)}.project-detail-heading h1{font-size:clamp(36px,4.4vw,64px)}.project-detail-heading{gap:28px}.project-detail-summary{line-height:1.5}}
+/* Project overview: quieter gallery with controls on the image. */
+.project-detail-heading h1{font-family:var(--sans);font-size:clamp(36px,4.2vw,58px);font-weight:400;letter-spacing:-.065em;line-height:1.08;margin:0}
+.project-detail-heading{align-items:center}
+.project-detail-actions{justify-items:end;padding:0}
+.project-detail-overview .project-detail-summary{margin:0 0 20px;color:rgba(226,232,239,.83);font-size:clamp(15px,1.25vw,19px);line-height:1.55}
+.project-detail-tags{margin-top:16px;gap:8px}
+.project-detail-tags span{padding:8px 12px;color:#173d58;background:rgba(236,245,250,.88);border:1px solid rgba(255,255,255,.3);font-size:10px;border-radius:9px}
+.project-media-carousel{position:relative}
+.project-media-viewport{position:relative}
+.project-media-viewport:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;box-shadow:inset 0 0 45px rgba(0,0,0,.10)}
+.project-media-pagination{display:none}
+.project-media-controls{position:absolute;inset:0;z-index:2;display:flex;justify-content:space-between;align-items:center;margin:0;padding:0 12px;pointer-events:none;opacity:0;transition:opacity .2s ease}
+.project-media-controls .project-media-arrow{pointer-events:auto;background:rgba(4,12,20,.65);border-radius:50%;backdrop-filter:blur(8px)}
+.project-media-carousel:hover .project-media-controls,.project-media-carousel:focus-within .project-media-controls{opacity:1}
+@media (min-width:901px){.project-media-placeholder{aspect-ratio:10 / 7}.project-media-image img{object-position:center}.project-detail-gallery{max-width:100%}}
+@media(max-width:900px){.project-detail-heading h1{font-size:clamp(30px,8vw,38px)}.project-detail-actions{justify-items:start}.project-detail-overview{padding-top:32px}}
+@media (hover:none), (pointer:coarse){.project-media-controls{display:none}}
+
+/* Match project headings and action typography to the selected-work index. */
+.project-detail-heading h1{font-size:clamp(36px,4.2vw,58px);line-height:1.08;letter-spacing:-.065em;overflow-wrap:normal}
+.hero-actions .panel-trigger,.project-detail-primary,.project-detail-mobile-link,.card-download-footer,.all-work-link{font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase}
+
+/* Mobile detail actions share one safe-area-aware row. */
+.project-detail-bottom-actions{flex:none;display:flex;justify-content:center;align-items:center}
+@media(max-width:760px){
+ .project-detail-bottom-actions{width:100%;gap:12px;padding:8px 16px calc(12px + env(safe-area-inset-bottom));justify-content:space-between}
+ .project-detail-bottom-actions .project-detail-back-bottom{flex:0 0 52px;margin:0}
+ .project-detail-bottom-actions .project-detail-mobile-link{flex:1;max-width:none;width:auto;margin:0;min-height:52px}
+}
+.reorder-toggle{flex:none;padding:12px 16px;min-height:44px;border:1px solid rgba(180,218,245,.32);border-radius:12px;background:rgba(9,17,26,.72);color:#edf4fa;font:10px var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.reorder-toggle:hover,.reorder-toggle:focus-visible{border-color:#a9dcff;outline-offset:3px}
+.reorder-help{margin:0 0 18px;color:#c6d5e2;font-size:13px;line-height:1.5}
+.reorder-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.work-panel .project-grid.is-reordering .project-card:not(.project-more-card){cursor:grab;touch-action:none}
+.work-panel .project-grid.is-reordering .project-card.is-dragging{opacity:.45;cursor:grabbing}
+.work-panel .project-grid.is-reordering .project-card.is-drop-target{outline:2px solid #b6e1ff;outline-offset:3px}
+@media(max-width:760px){.work-panel .section-head{display:flex;align-items:flex-start;flex-wrap:wrap}.reorder-toggle{margin-left:auto}}
+
+/* Mobile work controls stay together above the browser safe area. */
+@media(max-width:760px){
+ body > .reorder-toggle{display:none;position:fixed;z-index:100;bottom:calc(14px + env(safe-area-inset-bottom));left:80px;right:16px;width:calc(100% - 96px);height:54px;margin:0;text-align:center}
+ body:has(#landing-stage.is-work-open):not(.project-detail-open) > .reorder-toggle{display:block}
+ body:has(#landing-stage.is-work-open):not(.project-detail-open) > .panel-close-global{left:16px;transform:none}
+ .work-panel .work{padding-bottom:100px}
+}
