@@ -107,32 +107,32 @@
   };
   const themeBackgrounds = {
     cloud: {
-      src: '/themes/cloud-sky.webp',
-      image: 'linear-gradient(180deg,rgba(3,9,17,.38),rgba(3,8,14,.56)),url("/themes/cloud-sky.webp")'
+      src: 'assets/themes/cloud-sky.webp',
+      image: 'linear-gradient(180deg,rgba(3,9,17,.38),rgba(3,8,14,.56)),url("assets/themes/cloud-sky.webp")'
     },
     anime: {
-      src: '/themes/anime-sky.webp',
-      image: 'linear-gradient(180deg,rgba(3,5,17,.38),rgba(3,5,15,.5)),url("/themes/anime-sky.webp")'
+      src: 'assets/themes/anime-sky.webp',
+      image: 'linear-gradient(180deg,rgba(3,5,17,.38),rgba(3,5,15,.5)),url("assets/themes/anime-sky.webp")'
     },
     mural: {
-      src: '/themes/mumbai-mural.webp',
-      image: 'linear-gradient(180deg,rgba(31,7,13,.38),rgba(17,4,9,.54)),url("/themes/mumbai-mural.webp")'
+      src: 'assets/themes/mumbai-mural.webp',
+      image: 'linear-gradient(180deg,rgba(31,7,13,.38),rgba(17,4,9,.54)),url("assets/themes/mumbai-mural.webp")'
     },
     blueprint: {
-      src: '/themes/blueprint-grid.webp',
-      image: 'linear-gradient(180deg,rgba(9,35,84,.08),rgba(7,28,72,.18)),url("/themes/blueprint-grid.webp")'
+      src: 'assets/themes/blueprint-grid.webp',
+      image: 'linear-gradient(180deg,rgba(9,35,84,.08),rgba(7,28,72,.18)),url("assets/themes/blueprint-grid.webp")'
     },
     underwater: {
-      src: '/themes/underwater.webp',
-      image: 'linear-gradient(180deg,rgba(0,34,48,.18),rgba(0,15,27,.42)),url("/themes/underwater.webp")'
+      src: 'assets/themes/underwater.webp',
+      image: 'linear-gradient(180deg,rgba(0,34,48,.18),rgba(0,15,27,.42)),url("assets/themes/underwater.webp")'
     },
     bauhaus: {
-      src: '/themes/bauhaus.svg',
-      image: 'linear-gradient(180deg,rgba(20,19,22,.05),rgba(20,19,22,.12)),url("/themes/bauhaus.svg")'
+      src: 'assets/themes/bauhaus.svg',
+      image: 'linear-gradient(180deg,rgba(20,19,22,.05),rgba(20,19,22,.12)),url("assets/themes/bauhaus.svg")'
     },
     urban: {
-      src: '/themes/urban-city.webp',
-      image: 'linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.28)),url("/themes/urban-city.webp")'
+      src: 'assets/themes/urban-city.webp',
+      image: 'linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.28)),url("assets/themes/urban-city.webp")'
     }
   };
   let themeIndex = 0;
@@ -799,15 +799,16 @@
   let projectDetailOrigin = null;
   let panelCloseWasHidden = true;
   const projectBriefs = {
+  "16": {"aim": "Create useful, meaningful vehicle analytics dashboards with intuitive interactions and an interface that works across devices.", "direction": "Make vehicle KPIs and analytics clear and easy to explore, using responsive dashboards and considered micro-interactions.", "tools": "Code, data visualisation and interactive prototyping.", "media": ["assets/project-overviews/16-01.jpg", "assets/project-overviews/16-02.jpg", "assets/project-overviews/16-03.jpg", "assets/project-overviews/16-04.jpg", "assets/project-overviews/16-05.jpg", "assets/project-overviews/16-06.jpg", "assets/project-overviews/16-07.jpg"], "tags": ["UI/UX", "AUTOMOTIVE", "DATA DESIGN"]},
   "01": {
     "aim": "Create a modern finance app for tracking money, finances, applications and cards, with personalised settings and a simple, modern experience.",
     "direction": "Clear, legible and accessible, with straightforward interactions, zero clutter and no ads.",
     "tools": "Figma, Codex, HTML, Java, image rendering, prompt engineering, AI methodologies and data analysis.",
     "media": [
-      "/project-overviews/01-01.webp",
-      "/project-overviews/01-02.webp",
-      "/project-overviews/01-03.webp",
-      "/project-overviews/01-04.webp"
+      "assets/project-overviews/01-01.webp",
+      "assets/project-overviews/01-02.webp",
+      "assets/project-overviews/01-03.webp",
+      "assets/project-overviews/01-04.webp"
     ],
     "tags": [
       "AI",
@@ -820,11 +821,11 @@
     "direction": "A modern, glassy interface with familiar, understandable information.",
     "tools": "AI, Figma, ChatGPT Codex, sketching, iteration and prompt engineering.",
     "media": [
-      "/project-overviews/02-01.webp",
-      "/project-overviews/02-02.webp",
-      "/project-overviews/02-03.webp",
-      "/project-overviews/02-04.webp",
-      "/project-overviews/02-05.png"
+      "assets/project-overviews/02-01.webp",
+      "assets/project-overviews/02-02.webp",
+      "assets/project-overviews/02-03.webp",
+      "assets/project-overviews/02-04.webp",
+      "assets/project-overviews/02-05.png"
     ],
     "tags": []
   },
@@ -833,11 +834,11 @@
     "direction": "A location-focused globe and interactive timeline make tsunami history easy to explore.",
     "tools": "Figma, AI, WebGL, JavaScript and CSS, combining map research with a public tsunami data repository.",
     "media": [
-      "/project-overviews/03-01.webp",
-      "/project-overviews/03-02.webp",
-      "/project-overviews/03-03.webp",
-      "/project-overviews/03-04.webp",
-      "/project-overviews/03-05.webp"
+      "assets/project-overviews/03-01.webp",
+      "assets/project-overviews/03-02.webp",
+      "assets/project-overviews/03-03.webp",
+      "assets/project-overviews/03-04.webp",
+      "assets/project-overviews/03-05.webp"
     ],
     "tags": []
   },
@@ -846,10 +847,10 @@
     "direction": "Following discussions with stakeholders in Japan and India, the direction balanced simplicity with the legacy of the brand and its large audience.",
     "tools": "Figma, Miro, Adobe Photoshop, Lightroom, animation, sketching and user research.",
     "media": [
-      "/project-overviews/04-01.webp",
-      "/project-overviews/04-02.webp",
-      "/project-overviews/04-03.webp",
-      "/project-overviews/04-04.webp"
+      "assets/project-overviews/04-01.webp",
+      "assets/project-overviews/04-02.webp",
+      "assets/project-overviews/04-03.webp",
+      "assets/project-overviews/04-04.webp"
     ],
     "tags": []
   },
@@ -858,10 +859,10 @@
     "direction": "A simple, accessible automotive journey shaped by client and stakeholder discussions, with clear vehicle information and actions.",
     "tools": "Figma, Miro, Adobe Photoshop, Lightroom, animation, sketching and user research.",
     "media": [
-      "/project-overviews/05-01.webp",
-      "/project-overviews/05-02.webp",
-      "/project-overviews/05-03.webp",
-      "/project-overviews/05-04.webp"
+      "assets/project-overviews/05-01.webp",
+      "assets/project-overviews/05-02.webp",
+      "assets/project-overviews/05-03.webp",
+      "assets/project-overviews/05-04.webp"
     ],
     "tags": []
   },
@@ -870,9 +871,9 @@
     "direction": "Simple and educational for children and adults, with a human-centred approach.",
     "tools": "Online research, IQ test research papers, existing tests, Figma and AI tools.",
     "media": [
-      "/project-overviews/06-01.webp",
-      "/project-overviews/06-02.webp",
-      "/project-overviews/06-03.webp"
+      "assets/project-overviews/06-01.webp",
+      "assets/project-overviews/06-02.webp",
+      "assets/project-overviews/06-03.webp"
     ],
     "tags": [
       "EDUTECH",
@@ -884,12 +885,12 @@
     "direction": "An informative enterprise experience with dashboard patterns, designed for Android and iOS.",
     "tools": "Adobe XD, Figma, Miro, prototyping, animation and AI.",
     "media": [
-      "/project-overviews/07-01.webp",
-      "/project-overviews/07-02.webp",
-      "/project-overviews/07-03.webp",
-      "/project-overviews/07-04.webp",
-      "/project-overviews/07-05.webp",
-      "/project-overviews/07-06.webp"
+      "assets/project-overviews/07-01.webp",
+      "assets/project-overviews/07-02.webp",
+      "assets/project-overviews/07-03.webp",
+      "assets/project-overviews/07-04.webp",
+      "assets/project-overviews/07-05.webp",
+      "assets/project-overviews/07-06.webp"
     ],
     "tags": [
       "CRISIS MANAGEMENT",
@@ -903,10 +904,10 @@
     "direction": "Simple, educational and informative, with a visual language inspired by the Earth and greenery.",
     "tools": "AI-assisted energy research, Figma, internet research, AI agents and data analysis.",
     "media": [
-      "/project-overviews/08-01.webp",
-      "/project-overviews/08-02.webp",
-      "/project-overviews/08-03.webp",
-      "/project-overviews/08-04.webp"
+      "assets/project-overviews/08-01.webp",
+      "assets/project-overviews/08-02.webp",
+      "assets/project-overviews/08-03.webp",
+      "assets/project-overviews/08-04.webp"
     ],
     "tags": [
       "ENERGY TECH",
@@ -919,12 +920,12 @@
     "direction": "A simple, playful experience designed primarily for freshers.",
     "tools": "Adobe XD, Photoshop, Figma, Miro and online collaboration in a team of three designers.",
     "media": [
-      "/project-overviews/09-01.webp",
-      "/project-overviews/09-02.webp",
-      "/project-overviews/09-03.webp",
-      "/project-overviews/09-04.webp",
-      "/project-overviews/09-05.webp",
-      "/project-overviews/09-06.webp"
+      "assets/project-overviews/09-01.webp",
+      "assets/project-overviews/09-02.webp",
+      "assets/project-overviews/09-03.webp",
+      "assets/project-overviews/09-04.webp",
+      "assets/project-overviews/09-05.webp",
+      "assets/project-overviews/09-06.webp"
     ],
     "tags": [
       "UX RESEARCH",
@@ -937,12 +938,12 @@
     "direction": "An educational, academic and informative experience that makes information easy to access.",
     "tools": "Photoshop, Figma, Adobe XD, collaboration, card sorting and sketching.",
     "media": [
-      "/project-overviews/10-01.webp",
-      "/project-overviews/10-02.webp",
-      "/project-overviews/10-03.webp",
-      "/project-overviews/10-04.webp",
-      "/project-overviews/10-05.webp",
-      "/project-overviews/10-06.webp"
+      "assets/project-overviews/10-01.webp",
+      "assets/project-overviews/10-02.webp",
+      "assets/project-overviews/10-03.webp",
+      "assets/project-overviews/10-04.webp",
+      "assets/project-overviews/10-05.webp",
+      "assets/project-overviews/10-06.webp"
     ],
     "tags": []
   },
@@ -951,10 +952,10 @@
     "direction": "A research-led Siemens case study to develop ideas and conclusions for future product iterations.",
     "tools": "MR/VR research and studies, prototyping, Microsoft VR and Xbox Kinect.",
     "media": [
-      "/project-overviews/11-01.webp",
-      "/project-overviews/11-02.webp",
-      "/project-overviews/11-03.webp",
-      "/project-overviews/11-04.webp"
+      "assets/project-overviews/11-01.webp",
+      "assets/project-overviews/11-02.webp",
+      "assets/project-overviews/11-03.webp",
+      "assets/project-overviews/11-04.webp"
     ],
     "tags": [
       "AUGMENTED REALITY",
@@ -975,8 +976,8 @@
     "direction": "A pirate theme, subtle animations, ocean sounds and visuals that are understandable to children and adults.",
     "tools": "AI research, AI design, game design, Figma and Adobe.",
     "media": [
-      "/project-overviews/13-01.webp",
-      "/project-overviews/13-02.webp"
+      "assets/project-overviews/13-01.webp",
+      "assets/project-overviews/13-02.webp"
     ],
     "tags": []
   },
@@ -985,16 +986,23 @@
     "direction": "Playful, simple and adventurous, inspired by Pokémon.",
     "tools": "AI and Figma.",
     "media": [
-      "/thumbnails/wolfy.webp",
-      "/project-overviews/14-01.webp",
-      "/project-overviews/14-02.webp",
-      "/project-overviews/14-03.webp"
+      "assets/thumbnails/wolfy.webp",
+      "assets/project-overviews/14-01.webp",
+      "assets/project-overviews/14-02.webp",
+      "assets/project-overviews/14-03.webp"
     ],
     "tags": [
       "ANIMATION",
       "MOTION DESIGN",
       "GRAPHICS"
     ]
+  } ,
+  "15": {
+    "aim": "Create a modern audio visualizer and a space for artists to share their music and creative work.",
+    "direction": "A modern, space-inspired experience built around immersive audio and visuals.",
+    "tools": "Figma, Codex, AI, Java, image rendering, prompt engineering and AI methodologies.",
+    "media": ["assets/project-overviews/15-01.jpg", "assets/project-overviews/15-02.jpg", "assets/project-overviews/15-03.jpg", "assets/project-overviews/15-04.jpg"],
+    "tags": []
   }
 };
   const escapeHTML = value => String(value).replace(/[&<>"']/g, character => ({
@@ -1004,6 +1012,17 @@
     const index = card.querySelector('.project-index')?.textContent.trim() || '';
     const originalTitle = card.querySelector('h3')?.textContent.trim() || 'Selected project';
     const title = ({'07':'TCS Crisis Management Application','11':'Siemens MR/VR — Socio-Technical Systems','12':'Eesh self grading his design process','14':'Wolfie Daily AI Agent Companion'})[index] || originalTitle;
+    // Keep the project name and its descriptor distinct, like the work heading.
+    const titleParts = title.split(/\s+[—–]\s+/);
+    const titleSplits = {
+      '05': ['Maruti Suzuki', 'Arena'],
+      '07': ['TCS Crisis Management', 'Application'],
+      '10': ['Data & App', 'Organiser'],
+      '12': ['Eesh self grading', 'his design process'],
+      '14': ['Wolfie Daily', 'AI Agent Companion']
+    };
+    const [titleStart, titleEnd] = titleSplits[index] || (titleParts.length > 1
+      ? [titleParts[0], titleParts.slice(1).join(' ')] : [title, '']);
     const summary = card.querySelector('.project-caption p')?.textContent.trim() || '';
     const tags = [...card.querySelectorAll('.project-tags span')].map(tag => tag.textContent.trim());
     const brief = projectBriefs[index] || {};
@@ -1018,12 +1037,10 @@
     projectDetailContent.innerHTML = `
       <section class="project-detail-heading">
         <div class="project-detail-heading-main">
-          <h1 id="project-detail-title">${escapeHTML(title)}</h1>
-          <p class="project-detail-summary">${escapeHTML(summary)}</p>
+          <h1 id="project-detail-title">${escapeHTML(titleStart)}${titleEnd ? ` <em>${escapeHTML(titleEnd)}</em>` : ''}</h1>
         </div>
         <div class="project-detail-actions">
           <a class="project-detail-primary" href="${escapeHTML(fullDesignUrl)}" target="_blank" rel="noopener noreferrer" title="Opens in a new tab">View full design <span aria-hidden="true">↗</span></a>
-          <div class="project-detail-tags">${tags.map(tag => `<span>${escapeHTML(tag)}</span>`).join('')}</div>
         </div>
       </section>
       <section class="project-detail-gallery" aria-label="Project media gallery" ${media.length ? "" : "hidden"}>
@@ -1038,9 +1055,10 @@
             <span class="project-media-status" aria-live="polite">Media 1 of ${media.length}</span>
           </div>
         </div>
+        <div class="project-detail-tags">${tags.map(tag => `<span>${escapeHTML(tag)}</span>`).join('')}</div>
       </section>
       <section class="project-detail-overview">
-        <div class="project-detail-overview-lead"><p class="project-detail-kicker">THE PROJECT</p><p>${escapeHTML(summary)}</p></div>
+        <p class="project-detail-summary">${escapeHTML(summary)}</p>
         <div class="project-detail-brief-grid">${sections.map(([label, copy]) => `
           <article class="project-detail-brief"><h2>${escapeHTML(label)}</h2><p>${escapeHTML(copy || summary)}</p></article>`).join('')}
 
@@ -1079,6 +1097,15 @@
       if (event.key === 'ArrowLeft') { event.preventDefault(); showSlide(activeSlide - 1); }
       if (event.key === 'ArrowRight') { event.preventDefault(); showSlide(activeSlide + 1); }
     });
+    let lastWheelChange = 0;
+    carousel?.addEventListener('wheel', event => {
+      if (Math.abs(event.deltaX) < 12 || Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      event.preventDefault();
+      if (performance.now() - lastWheelChange > 450) {
+        showSlide(activeSlide + (event.deltaX > 0 ? 1 : -1));
+        lastWheelChange = performance.now();
+      }
+    }, { passive: false });
     let pointerStartX = null;
     viewport?.addEventListener('pointerdown', event => { pointerStartX = event.clientX; });
     viewport?.addEventListener('pointerup', event => {
@@ -1124,6 +1151,7 @@
     if (title) card.setAttribute('aria-label', `Open project overview for ${title}`);
   });
   document.querySelector('.project-grid')?.addEventListener('click', event => {
+    if (event.currentTarget.classList.contains('is-reordering')) { event.preventDefault(); return; }
     const card = event.target.closest('.project-card:not(.project-more-card)');
     if (!card || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
@@ -1276,3 +1304,76 @@ if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-mot
     worksPanel.querySelectorAll('.project-card').forEach(card => { card.classList.add('project-reveal'); projectObserver.observe(card); });
   }
 }
+
+// Project order is a personal browser preference; opening projects stays unchanged outside arrange mode.
+(() => {
+  const grid = document.querySelector('.work-panel .project-grid');
+  const toggle = document.querySelector('.reorder-toggle');
+  const help = document.querySelector('.reorder-help');
+  const status = document.querySelector('.reorder-status');
+  if (!grid || !toggle) return;
+  const originalParent = toggle.parentElement;
+  const closeButton = document.querySelector('.panel-close-global');
+  const mobileLayout = window.matchMedia('(max-width: 760px)');
+  const placeToggle = () => {
+    if (mobileLayout.matches && closeButton) closeButton.insertAdjacentElement('afterend', toggle);
+    else originalParent.appendChild(toggle);
+  };
+  placeToggle();
+  mobileLayout.addEventListener('change', placeToggle);
+  const cards = [...grid.querySelectorAll('.project-card:not(.project-more-card)')];
+  const more = grid.querySelector('.project-more-card');
+  const key = 'portfolio-project-order-v2';
+  const id = card => card.querySelector('.project-index')?.textContent.trim();
+  const save = () => { try { localStorage.setItem(key, JSON.stringify(cardsInOrder().map(id))); } catch (_) {} };
+  const cardsInOrder = () => [...grid.querySelectorAll('.project-card:not(.project-more-card)')];
+  try {
+    const order = JSON.parse(localStorage.getItem(key) || '[]');
+    if (Array.isArray(order)) { const sorted = order.map(value => cards.find(item => id(item) === value)).filter(Boolean); cards.filter(card => !sorted.includes(card)).forEach(card => sorted.push(card)); sorted.forEach(card => grid.insertBefore(card, more)); }
+  } catch (_) {}
+  const announce = card => { const list = cardsInOrder(); status.textContent = `${card.querySelector('h3')?.textContent.trim()} moved to position ${list.indexOf(card) + 1} of ${list.length}.`; };
+  toggle.addEventListener('click', () => {
+    const editing = !grid.classList.contains('is-reordering');
+    grid.classList.toggle('is-reordering', editing);
+    toggle.setAttribute('aria-pressed', String(editing));
+    toggle.textContent = editing ? 'Done' : 'Arrange works';
+    help.hidden = !editing;
+    cards.forEach(card => { card.draggable = false; });
+    if (!editing) save();
+  });
+  let dragged = null, target = null, startX = 0, startY = 0, moved = false;
+  grid.addEventListener('pointerdown', event => {
+    if (!grid.classList.contains('is-reordering') || event.button !== 0) return;
+    const card = event.target.closest('.project-card:not(.project-more-card)');
+    if (!card) return;
+    dragged = card; target = null; moved = false; startX = event.clientX; startY = event.clientY;
+    card.setPointerCapture(event.pointerId);
+  });
+  grid.addEventListener('pointermove', event => {
+    if (!dragged) return;
+    if (Math.hypot(event.clientX - startX, event.clientY - startY) < 8 && !moved) return;
+    moved = true; dragged.classList.add('is-dragging');
+    const candidate = document.elementFromPoint(event.clientX, event.clientY)?.closest('.project-card:not(.project-more-card)');
+    if (target) target.classList.remove('is-drop-target');
+    target = candidate && candidate !== dragged ? candidate : null;
+    target?.classList.add('is-drop-target');
+  });
+  const finish = () => {
+    if (!dragged) return;
+    if (moved && target) { const list = cardsInOrder(); grid.insertBefore(dragged, list.indexOf(dragged) < list.indexOf(target) ? target.nextElementSibling : target); save(); announce(dragged); }
+    dragged.classList.remove('is-dragging'); target?.classList.remove('is-drop-target'); dragged = null; target = null;
+  };
+  grid.addEventListener('pointerup', finish);
+  grid.addEventListener('pointercancel', () => { if (dragged) dragged.classList.remove('is-dragging'); target?.classList.remove('is-drop-target'); dragged = null; target = null; });
+  grid.addEventListener('keydown', event => {
+    if (!grid.classList.contains('is-reordering')) return;
+    const card = event.target.closest('.project-card:not(.project-more-card)');
+    if (!card) return;
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); return; }
+    if (!['ArrowLeft','ArrowUp','ArrowRight','ArrowDown'].includes(event.key)) return;
+    event.preventDefault(); const list = cardsInOrder(); const index = list.indexOf(card);
+    const step = ['ArrowLeft','ArrowUp'].includes(event.key) ? -1 : 1;
+    const neighbor = list[index + step]; if (!neighbor) return;
+    grid.insertBefore(card, step < 0 ? neighbor : neighbor.nextElementSibling); card.focus(); save(); announce(card);
+  });
+})();
